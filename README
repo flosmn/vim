@@ -1,0 +1,5 @@
+My vimrc
+
+make symlink to vimrc:
+
+ln -s ~/.vim/vimrc ~/.vimrc
