@@ -1,4 +1,4 @@
-set nocompatible               " be iMproved
+set nocompatible
 
 " ================ Vundle  ==========
 filetype off
@@ -10,6 +10,8 @@ Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
+Bundle 'scrooloose/syntastic'
+Bundle 'Valloric/YouCompleteMe'
 
 filetype plugin indent on
 
@@ -44,9 +46,26 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
+" ================ Syntastic Settings =================
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++0x -stdlib=libc++ -Wall -Wconversion'
+let g:syntastic_enable_signs = 0
+
+" ================ Highlighting Spelling and Syntastic Errors ====
+hi clear SpellBad
+hi clear SpellCap
+hi SpellBad ctermfg=244 ctermbg=088 guifg=#839496 guibg=#870000
+hi SpellCap ctermfg=244 ctermbg=088 guifg=#839496 guibg=#870000
+
+" ================ YCM Settings =================
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/ycm_conf/'
+let g:ycm_register_as_syntastic_checker = 0
+let g:ycm_add_preview_to_completeopt = 0
+
 " ================ Search Settings =================
 set incsearch "Find the next match as we type the search
-set hlsearch "Highlight searches by default
+" set hlsearch "Highlight searches by default
 set viminfo='100,f1 "Save up to 100 marks, enable capital marks
 
 " ================ Turn Off Swap Files ==============
@@ -58,9 +77,9 @@ set nowb
 " Keep undo history across sessions, by storing in file.
 " Only works all the time.
 
-silent !mkdir ~/.vim/backups > /dev/null 2>&1
-set undodir=~/.vim/backups
-set undofile
+"silent !mkdir ~/.vim/backups > /dev/null 2>&1
+"set undodir=~/.vim/backups
+"set undofile
 
 " ================ Indentation ======================
 set autoindent
