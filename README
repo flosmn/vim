@@ -1,5 +1,18 @@
-My vimrc
+Set up vim on a new machine:
 
-make symlink to vimrc:
+1.) make symlink to vimrc:
 
-ln -s ~/.vim/vimrc ~/.vimrc
+	UNIX:
+		ln -s ~/.vim/vimrc ~/.vimrc
+
+	WINDOWS:
+		In ..\Program Files\vim do
+		mklink _vimrc %HOME%\.vim\.vimrc
+
+2.) install vundle in ~/.vim
+	git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+
+3.) install plugins in vim with ":BundleInstall"
+
+4.) done!
+

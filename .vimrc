@@ -15,7 +15,15 @@ Bundle 'Valloric/YouCompleteMe'
 
 filetype plugin indent on
 
+" ================ GUI Options  ==========
+"Remove menu bar
+set guioptions-=m
+
+"Remove toolbar
+set guioptions-=T
+
 " ================ Solarized  ==========
+let g:solarized_italic = 0
 set background=dark
 colorscheme solarized
 
@@ -65,7 +73,6 @@ let g:ycm_add_preview_to_completeopt = 0
 
 " ================ Search Settings =================
 set incsearch "Find the next match as we type the search
-" set hlsearch "Highlight searches by default
 set viminfo='100,f1 "Save up to 100 marks, enable capital marks
 
 " ================ Turn Off Swap Files ==============
@@ -80,6 +87,9 @@ set nowb
 "silent !mkdir ~/.vim/backups > /dev/null 2>&1
 "set undodir=~/.vim/backups
 "set undofile
+
+" ================ Fonts ============================
+set guifont=DejaVu\ Sans\ Mono:h10
 
 " ================ Indentation ======================
 set autoindent
@@ -107,3 +117,14 @@ au BufRead,BufNewFile *.vert,*.frag,*.vp,*.fp set ft=c
 set scrolloff=8 "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
+
+
+" ================ Mappings ========================
+nmap <C-g> <C-]>
+
+nmap <S-Enter> O<ESC>
+nmap <CR> o<ESC>
+
+map <F3> :set background=dark <CR>
+map <F4> :set background=light <CR>
+
