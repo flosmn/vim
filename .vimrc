@@ -11,15 +11,12 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
-Bundle 'Valloric/YouCompleteMe'
+Bundle 'tpope/vim-fugitive'
 
 filetype plugin indent on
 
 " ================ GUI Options  ==========
-"Remove menu bar
 set guioptions-=m
-
-"Remove toolbar
 set guioptions-=T
 
 " ================ Solarized  ==========
@@ -44,6 +41,8 @@ set showmode "Show current mode down the bottom
 set visualbell "No sounds
 set autoread "Reload files changed outside vim
 set hidden
+set wildmenu
+set wildmode=longest:full,full
 
 " ================ CtrlP Settings =================
 let g:ctrlp_custom_ignore = {
@@ -57,7 +56,7 @@ let g:ctrlp_cmd = 'CtrlP'
 " ================ Syntastic Settings =================
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++0x -stdlib=libc++ -Wall -Wconversion'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++ -Wall -Wconversion'
 let g:syntastic_enable_signs = 0
 
 " ================ Highlighting Spelling and Syntastic Errors ====
@@ -72,7 +71,9 @@ let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_add_preview_to_completeopt = 0
 
 " ================ Search Settings =================
-set incsearch "Find the next match as we type the search
+set incsearch
+set smartcase
+set ignorecase
 set viminfo='100,f1 "Save up to 100 marks, enable capital marks
 
 " ================ Turn Off Swap Files ==============
@@ -87,10 +88,6 @@ set nowb
 "silent !mkdir ~/.vim/backups > /dev/null 2>&1
 "set undodir=~/.vim/backups
 "set undofile
-
-" ================ Fonts ============================
-set guifont=DejaVu\ Sans\ Mono:h10
-
 " ================ Indentation ======================
 set autoindent
 set smartindent
@@ -98,7 +95,7 @@ set smarttab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-set noexpandtab
+set expandtab
 
 filetype plugin on
 filetype indent on
@@ -115,15 +112,13 @@ au BufRead,BufNewFile *.vert,*.frag,*.vp,*.fp set ft=c
 
 " ================ Scrolling ========================
 set scrolloff=8 "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15
-set sidescroll=1
-
 
 " ================ Mappings ========================
 nmap <C-g> <C-]>
 
 nmap <S-Enter> O<ESC>
 nmap <CR> o<ESC>
+nmap <C-S> :w<CR>
 
 map <F3> :set background=dark <CR>
 map <F4> :set background=light <CR>
