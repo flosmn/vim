@@ -13,6 +13,7 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
 
+
 filetype plugin indent on
 
 " ================ GUI Options  ==========
