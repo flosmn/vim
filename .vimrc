@@ -12,7 +12,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
-
+Bundle 'rking/ag.vim'
 
 filetype plugin indent on
 
@@ -22,7 +22,7 @@ set guioptions-=T
 
 " ================ Solarized  ==========
 let g:solarized_italic = 0
-set background=dark
+let g:solarized_termcolors = 256
 colorscheme solarized
 
 " ================ Powerline ==========
@@ -39,11 +39,14 @@ set backspace=indent,eol,start "Allow backspace in insert mode
 set history=1000 "Store lots of :cmdline history
 set showcmd "Show incomplete cmds down the bottom
 set showmode "Show current mode down the bottom
-set visualbell "No sounds
 set autoread "Reload files changed outside vim
 set hidden
 set wildmenu
 set wildmode=longest:full,full
+
+" ================ No belling ====================
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
 
 " ================ CtrlP Settings =================
 let g:ctrlp_custom_ignore = {
@@ -57,7 +60,7 @@ let g:ctrlp_cmd = 'CtrlP'
 " ================ Syntastic Settings =================
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++ -Wall -Wconversion'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -Wall'
 let g:syntastic_enable_signs = 0
 
 " ================ Highlighting Spelling and Syntastic Errors ====
@@ -89,6 +92,24 @@ set nowb
 "silent !mkdir ~/.vim/backups > /dev/null 2>&1
 "set undodir=~/.vim/backups
 "set undofile
+
+" ================ The Silver Searcher ======================
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --smart-case\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" bind \ (backward slash) to grep shortcut
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>--smart-case<SPACE>
+
 " ================ Indentation ======================
 set autoindent
 set smartindent
@@ -114,6 +135,17 @@ au BufRead,BufNewFile *.vert,*.frag,*.vp,*.fp set ft=c
 " ================ Scrolling ========================
 set scrolloff=8 "Start scrolling when we're 8 lines away from margins
 
+" ================ Custom functions ========================
+command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(values(buffer_numbers))
+endfunction
+
 " ================ Mappings ========================
 nmap <C-g> <C-]>
 
@@ -123,4 +155,6 @@ nmap <C-S> :w<CR>
 
 map <F3> :set background=dark <CR>
 map <F4> :set background=light <CR>
+set background=dark
 
+set t_Co=256
