@@ -24,6 +24,7 @@ set guioptions-=T
 let g:solarized_italic = 0
 let g:solarized_termcolors = 256
 colorscheme solarized
+set background=light
 
 " ================ Powerline ==========
 set laststatus=2
@@ -155,6 +156,6 @@ nmap <C-S> :w<CR>
 
 map <F3> :set background=dark <CR>
 map <F4> :set background=light <CR>
-set background=dark
 
-set t_Co=256
+command! MenuOff set guioptions-=m
+command! MenuOn  set guioptions+=m
