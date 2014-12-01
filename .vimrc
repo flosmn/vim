@@ -26,8 +26,9 @@ let g:unite_source_grep_default_opts =
 	  \ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
 	  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
 let g:unite_source_grep_recursive_opt = ''
-nnoremap <leader>p :Unite -start-insert file_rec/async:!<cr>
+let g:unite_split_rule = 'botright'
 nnoremap <leader>f :Unite grep:.<cr>
+nnoremap <leader>p :Unite -start-insert file_rec/async:!<cr>
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
