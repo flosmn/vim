@@ -8,23 +8,38 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
-Bundle 'rking/ag.vim'
+Bundle 'shougo/unite.vim'
+Bundle 'shougo/vimproc.vim'
 
 filetype plugin indent on
+
+" ================ Set the leader key ====
+nnoremap <space> <nop>
+let mapleader = "\<Space>"
+
+" ================ Unite ====
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts =
+	  \ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
+	  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+let g:unite_source_grep_recursive_opt = ''
+nnoremap <leader>p :Unite -start-insert file_rec/async:!<cr>
+nnoremap <leader>f :Unite grep:.<cr>
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
 
 " ================ GUI Options  ==========
 set guioptions-=m
 set guioptions-=T
 
-" ================ Solarized  ==========
-let g:solarized_italic = 0
-let g:solarized_termcolors = 256
+syntax on
+set background=dark
 colorscheme solarized
-set background=light
 
 " ================ Powerline ==========
 set laststatus=2
@@ -106,9 +121,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-" bind \ (backward slash) to grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>--smart-case<SPACE>
 
 " ================ Indentation ======================
@@ -118,7 +130,7 @@ set smarttab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-set expandtab
+" make christoph happy set expandtab
 
 filetype plugin on
 filetype indent on
@@ -136,17 +148,6 @@ au BufRead,BufNewFile *.vert,*.frag,*.vp,*.fp set ft=c
 " ================ Scrolling ========================
 set scrolloff=8 "Start scrolling when we're 8 lines away from margins
 
-" ================ Custom functions ========================
-command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
-function! QuickfixFilenames()
-  " Building a hash ensures we get each buffer only once
-  let buffer_numbers = {}
-  for quickfix_item in getqflist()
-    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
-  endfor
-  return join(values(buffer_numbers))
-endfunction
-
 " ================ Mappings ========================
 nmap <C-g> <C-]>
 
@@ -156,6 +157,7 @@ nmap <C-S> :w<CR>
 
 map <F3> :set background=dark <CR>
 map <F4> :set background=light <CR>
+map <F5> :source $MYVIMRC <CR>
 
 command! MenuOff set guioptions-=m
 command! MenuOn  set guioptions+=m
