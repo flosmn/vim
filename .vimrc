@@ -37,8 +37,12 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 set guioptions-=m
 set guioptions-=T
 
+" ================ Solarized  ==========
 syntax on
 set background=dark
+set t_Co=256
+let g:solarized_termcolors = 256
+let g:solarized_termtrans = 1
 colorscheme solarized
 
 " ================ Powerline ==========
@@ -63,15 +67,6 @@ set wildmode=longest:full,full
 " ================ No belling ====================
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
-
-" ================ CtrlP Settings =================
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  'debug$\|release$\|build$\|\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll|obj|zip|swap|manifest|pyc)$',
-  \ }
-
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
 
 " ================ Syntastic Settings =================
 let g:syntastic_cpp_check_header = 1
@@ -109,20 +104,6 @@ set nowb
 "set undodir=~/.vim/backups
 "set undofile
 
-" ================ The Silver Searcher ======================
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --smart-case\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-nnoremap \ :Ag<SPACE>--smart-case<SPACE>
-
 " ================ Indentation ======================
 set autoindent
 set smartindent
@@ -130,7 +111,6 @@ set smarttab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-" make christoph happy set expandtab
 
 filetype plugin on
 filetype indent on
