@@ -8,31 +8,19 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/vim-powerline'
+Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
 Bundle 'shougo/unite.vim'
 Bundle 'shougo/vimproc.vim'
+Bundle 'pekepeke/vim-unite-repo-files'
 
 filetype plugin indent on
 
 " ================ Set the leader key ====
 nnoremap <space> <nop>
 let mapleader = "\<Space>"
-
-" ================ Unite ====
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts =
-	  \ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
-	  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-let g:unite_source_grep_recursive_opt = ''
-let g:unite_split_rule = 'botright'
-nnoremap <leader>f :Unite grep:.<cr>
-nnoremap <leader>p :Unite -auto-preview -no-split -start-insert file_rec/async:!<cr>
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-
 
 " ================ GUI Options  ==========
 set guioptions-=m
@@ -48,6 +36,16 @@ colorscheme solarized
 
 " ================ Powerline ==========
 set laststatus=2
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#show_message = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 " ================ Set proper file encoding ==========
 set encoding=utf-8
@@ -128,6 +126,36 @@ au BufRead,BufNewFile *.vert,*.frag,*.vp,*.fp set ft=c
 
 " ================ Scrolling ========================
 set scrolloff=8 "Start scrolling when we're 8 lines away from margins
+
+" ================ Unite ====
+let g:inute_win_height = 30
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts =
+	  \ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
+	  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+
+let g:unite_source_repo_files_rule = {
+    \   'git' : {
+    \   'located' : '.git',
+    \   'command' : 'git',
+    \   'exec' : '%c ls-files --cached --exclude-standard',
+    \ } }
+
+call unite#custom#profile('default', 'context', {
+\	'start_insert' : 1,
+\	'no_split' :     1,
+\	'auto_preview' : 1,
+\})
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom#source(
+	\'repo_files,file_rec,file_rec/async',
+	\'ignore_pattern',
+    \'.*.tga\|.*.png\|.*.svg\|.*.pdf\|.*.jpg\|.*ignore.*\|.*tags$')
+
+nnoremap <leader>f :Unite grep:.<cr>
+nnoremap <leader>p :Unite file_rec/async:!<cr>
+nnoremap <leader>r :Unite repo_files<cr>
 
 " ================ Mappings ========================
 nmap <C-g> <C-]>
