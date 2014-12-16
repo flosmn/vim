@@ -8,6 +8,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'kien/ctrlp.vim'
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
@@ -36,6 +37,7 @@ colorscheme solarized
 
 " ================ Powerline ==========
 set laststatus=2
+let g:airline_symbols = {}
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#whitespace#show_message = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -66,6 +68,15 @@ set wildmode=longest:full,full
 " ================ No belling ====================
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
+
+" ================ CtrlP Settings =================
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  'debug$\|release$\|build$\|\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll|obj|zip|swap|manifest|pyc)$',
+  \ }
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 " ================ Syntastic Settings =================
 let g:syntastic_cpp_check_header = 1
@@ -128,7 +139,6 @@ au BufRead,BufNewFile *.vert,*.frag,*.vp,*.fp set ft=c
 set scrolloff=8 "Start scrolling when we're 8 lines away from margins
 
 " ================ Unite ====
-let g:inute_win_height = 30
 let g:unite_source_grep_command = 'ag'
 let g:unite_source_grep_default_opts =
 	  \ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
