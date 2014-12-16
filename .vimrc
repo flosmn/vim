@@ -43,9 +43,9 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+let g:airline_symbols_branch = ''
+let g:airline_symbols_readonly = ''
+let g:airline_symbols_linenr = ''
 
 " ================ Set proper file encoding ==========
 set encoding=utf-8
@@ -128,34 +128,70 @@ au BufRead,BufNewFile *.vert,*.frag,*.vp,*.fp set ft=c
 set scrolloff=8 "Start scrolling when we're 8 lines away from margins
 
 " ================ Unite ====
-let g:inute_win_height = 30
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts =
-	  \ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
-	  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+"let g:inute_win_height = 30
+"let g:unite_source_grep_command = 'ag'
+"let g:unite_source_grep_default_opts =
+"	  \ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
+"	  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+"
+"let g:unite_source_repo_files_rule = {
+"    \   'git' : {
+"    \   'located' : '.git',
+"    \   'command' : 'git',
+"    \   'exec' : '%c ls-files --cached --exclude-standard',
+"    \ } }
+"
+"call unite#custom#profile('default', 'context', {
+"\	'start_insert' : 1,
+"\	'no_split' :     1,
+"\	'auto_preview' : 1,
+"\})
+"call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"call unite#filters#sorter_default#use(['sorter_rank'])
+"call unite#custom#source(
+"	\'repo_files,file_rec,file_rec/async',
+"	\'ignore_pattern',
+"    \'.*.tga\|.*.png\|.*.svg\|.*.pdf\|.*.jpg\|.*ignore.*\|.*tags$')
+"
+"nnoremap <leader>f :Unite grep:.<cr>
+"nnoremap <leader>p :Unite file_rec/async:!<cr>
+"nnoremap <leader>r :Unite repo_files<cr>
 
-let g:unite_source_repo_files_rule = {
-    \   'git' : {
-    \   'located' : '.git',
-    \   'command' : 'git',
-    \   'exec' : '%c ls-files --cached --exclude-standard',
-    \ } }
+nnoremap [unite] <Nop>
+nmap     <space> [unite]
 
+" Search current repository.
+nnoremap <silent> [unite]r  :Unite repo_files<CR>
+
+" Search buffer list.
+nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
+
+" Actions on items.
+" inoremap <buffer><expr> <C-K> unite#do_action('above')
+" inoremap <buffer><expr> <C-J> unite#do_action('below')
+" inoremap <buffer><expr> <C-H> unite#do_action('left')
+" inoremap <buffer><expr> <C-L> unite#do_action('right')
+
+" Default options.
 call unite#custom#profile('default', 'context', {
-\	'start_insert' : 1,
-\	'no_split' :     1,
-\	'auto_preview' : 1,
+\    'start_insert' : 1,
+\   'no_split' :     1,
+\    'auto_preview' : 1,
 \})
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#source(
-	\'repo_files,file_rec,file_rec/async',
-	\'ignore_pattern',
-    \'.*.tga\|.*.png\|.*.svg\|.*.pdf\|.*.jpg\|.*ignore.*\|.*tags$')
 
-nnoremap <leader>f :Unite grep:.<cr>
-nnoremap <leader>p :Unite file_rec/async:!<cr>
-nnoremap <leader>r :Unite repo_files<cr>
+" Don't show some files for the given sources.
+call unite#custom#source(
+\    'repo_files,file_rec,file_rec/async',
+\    'ignore_pattern',
+\    '.*.tga\|.*.png\|.*.svg\|.*.pdf\|.*.jpg')
+
+" Search scm repos.
+let g:unite_source_repo_files_rule = {
+     \   'git' : {
+     \   'located' : '.git',
+     \   'command' : 'git',
+     \   'exec' : '%c ls-files --cached --exclude-standard',
+     \ } }
 
 " ================ Mappings ========================
 nmap <C-g> <C-]>
